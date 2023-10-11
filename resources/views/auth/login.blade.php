@@ -46,16 +46,25 @@
                                     <div class="mb-3">
                                         <label class="form-label" for="username">{{__('Email')}}</label>
                                         <input type="text" class="form-control" id="username" name="email" placeholder="{{__('Enter Email')}}">
-                                        
+                                        @error('email')
+                                        <small class="text-danger">
+                                            {{ $message }}
+                                        </small>
+                                        @enderror
                                     </div>
+   
 
                                     <div class="mb-3">
                                         <label class="form-label" for="userpassword">{{__('Password')}}</label>
                                         <input type="password" class="form-control" id="userpassword"
                                         placeholder="{{__('Enter password')}}" name="password">
+                                        @error('password')
+                                        <small class="text-danger">
+                                            {{ $message }}
+                                        </small>
+                                        @enderror
                                
                                     </div>
-
                                     <div class="form-check">
                                         <input type="checkbox" class="form-check-input" id="customControlInline">
                                         <label class="form-check-label" for="customControlInline">Remember
