@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Cart;
-use App\Models\Product;
+
+use App\Models\Order;
 use Auth;
 
-class CartController extends Controller
+class OrderController extends Controller
 {
-    public $folder = 'carts';
+    public $folder = 'orders';
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +18,7 @@ class CartController extends Controller
     public function index()
     {
         //
-        $data['records'] = Cart::get();
+        $data['records'] = Order::get();
         return view($this->folder . '.index',$data);
         // return view("$this->folder index",$data);
     }
@@ -43,14 +43,32 @@ class CartController extends Controller
     public function store(Request $request)
     {
         //
-        $product = Product::findOrFail($request->product_id);
 
-        $record = new Cart;
-        $record->price = $product->price;
+        $carts = Cart::where('user_id',Auth::user()->id)->get();
+        if($carts->count() == 0)
+        {
+            return "No products in your cart";
+        }
+
+
+        $record = new Order;
+        $record->total_amount = 0;
         $record->product_id = $request->product_id;
-        $record->quantity = $request->quantity;
+        $record->status = 'unpaid';
         $record->user_id = Auth::user()->id;
         $record->save();
+
+        foreach($carts as $cart)
+        {
+            $product = Product::findOrFail($cart->product_id);
+
+            $orderItem = new OrderItem;
+            $orderItem->unit_price = $product->price;
+            $record->product_id = $cart->product_id;
+            $record->quantity = $cart->quantity;
+            $record->save();
+        }
+
 
 
         // $data['records'] = Product::get();
@@ -68,7 +86,7 @@ class CartController extends Controller
     public function show($id)
     {
         //
-        $data['record'] = Cart::findOrFail($id);
+        $data['record'] = Order::findOrFail($id);
         return view($this->folder . '.show',$data);
        
     }
@@ -82,7 +100,7 @@ class CartController extends Controller
     public function edit($id)
     {
         //
-        $data['record'] = Cart::findOrFail($id);
+        $data['record'] = Order::findOrFail($id);
        
         return view($this->folder . '.edit',$data);
        
@@ -97,13 +115,8 @@ class CartController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $record = Cart::findOrFail($id);
-        
-        $record->price = $request->price;
-        $record->product_id = $request->product_id;
-        $record->quantity = $request->quantity;
-        $record->user_id = Auth::user()->id;
-
+        $record = Order::findOrFail($id);
+        $record->status = $request->status;
         $record->save();
 
 
@@ -122,7 +135,7 @@ class CartController extends Controller
     public function destroy($id)
     {
         //
-        $data['record'] = Cart::findOrFail($id)->delete();
+        $data['record'] = Order::findOrFail($id)->delete();
         return view($this->folder . '.index',$data);
     }
 }
