@@ -1,52 +1,113 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+<!doctype html>
+<html lang="en" >
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+<head>
+
+    <meta charset="utf-8" />
+    <title>Free Register | Qovex - Admin & Dashboard Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="/templates/store1/assets/images/favicon.ico">
+
+    <!-- Bootstrap Css -->
+    <link href="/templates/store1/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="/templates/store1/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="/templates/store1/assets/css/app.min.css"  id="app-style"  rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+    <div class="home-btn d-none d-sm-block">
+        <a href="index.html" class="text-reset"><i class="fas fa-home h2"></i></a>
+    </div>
+    <div class="account-pages my-5 pt-sm-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5">
+                    <div class="card overflow-hidden">
+                        <div class="bg-login text-center">
+                            <div class="bg-login-overlay"></div>
+                            <div class="position-relative">
+                                <h5 class="text-white font-size-20">Free Register</h5>
+                                <p class="text-white-50 mb-0">Get your free Qovex account now</p>
+                                <a href="index.html" class="logo logo-admin mt-4">
+                                    <img src="/templates/store1/assets/images/logo-sm-dark.png" alt="" height="30">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body pt-5">
+
+                            <div class="p-2">
+                                <form class="form-horizontal" action="/register" method="post">
+                                    @csrf
+                                    <div class="mb-3">
+                                        <label class="form-label" for="useremail"> {{__('Email')}} </label>
+                                        <input type="email" class="form-control" id="useremail"
+                                            placeholder="{{__('Enter email')}}" name="email">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label" for="username"> {{__('Name')}} </label>
+                                        <input type="text" class="form-control" id="username"
+                                            placeholder="{{__('Enter name')}}" name="name">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label" for="userpassword"> {{__('Password')}} </label>
+                                        <input type="password" class="form-control" id="userpassword"
+                                            placeholder="{{__('Enter password')}}" name="password">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label" for="userpassword"> {{__('Password Confirmation')}} </label>
+                                        <input type="password" class="form-control" id="userpassword"
+                                            placeholder="{{__('Enter password confirmation')}}" name="password_confirmation">
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <button class="btn btn-primary w-100 waves-effect waves-light"
+                                            type="submit">Register</button>
+                                    </div>
+
+                                    <div class="mt-4 text-center">
+                                        <p class="mb-0">By registering you agree to the Skote <a href="#"
+                                                class="text-primary">Terms of Use</a></p>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="mt-5 text-center">
+                        <p>Already have an account ? <a href="pages-login.html" class="fw-medium text-primary">
+                                Login</a> </p>
+                        <p>©
+                            <script>document.write(new Date().getFullYear())</script> Qovex. Crafted with <i
+                                class="mdi mdi-heart text-danger"></i> by Themesbrand
+                        </p>
+                    </div>
+
+                </div>
+            </div>
         </div>
+    </div>
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+    <!-- JAVASCRIPT -->
+    <!-- JAVASCRIPT -->
+    <script src="/templates/store1/assets/libs/jquery/jquery.min.js"></script>
+    <script src="/templates/store1/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/templates/store1/assets/libs/metismenu/metisMenu.min.js"></script>
+    <script src="/templates/store1/assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="/templates/store1/assets/libs/node-waves/waves.min.js"></script>
+    <script src="/templates/store1/assets/libs/jquery-sparkline/jquery.sparkline.min.js"></script>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
+    <script src="/templates/store1/assets/js/app.js"></script>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+</body>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ml-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+</html>
