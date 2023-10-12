@@ -19,6 +19,9 @@ class CartController extends Controller
     {
         //
         $data['records'] = Cart::get();
+        return response()->json([
+            'data' => $data['records']
+        ]);
         return view($this->folder . '.index',$data);
         // return view("$this->folder index",$data);
     }
@@ -49,13 +52,16 @@ class CartController extends Controller
         $record->price = $product->price;
         $record->product_id = $request->product_id;
         $record->quantity = $request->quantity;
-        $record->user_id = Auth::user()->id;
+        $record->user_id = 1;
         $record->save();
 
 
         // $data['records'] = Product::get();
         // return view($this->folder . '.index',$data);
         
+        return response()->json([
+            'data' => $record
+        ]);
         return $this->show($record->id);
     }
 
@@ -69,6 +75,10 @@ class CartController extends Controller
     {
         //
         $data['record'] = Cart::findOrFail($id);
+       
+        return response()->json([
+            'data' => $data['record']
+        ]);
         return view($this->folder . '.show',$data);
        
     }
@@ -84,6 +94,7 @@ class CartController extends Controller
         //
         $data['record'] = Cart::findOrFail($id);
        
+      
         return view($this->folder . '.edit',$data);
        
     }
@@ -102,14 +113,17 @@ class CartController extends Controller
         $record->price = $request->price;
         $record->product_id = $request->product_id;
         $record->quantity = $request->quantity;
-        $record->user_id = Auth::user()->id;
+        $record->user_id = 1;
 
         $record->save();
 
 
         // $data['records'] = Product::get();
         // return view($this->folder . '.index',$data);
-        
+        return response()->json([
+            'data' => $record
+        ]);
+
         return $this->show($id);
     }
 
@@ -123,6 +137,10 @@ class CartController extends Controller
     {
         //
         $data['record'] = Cart::findOrFail($id)->delete();
+        
+        return response()->json([
+            'data' => 'deleted successfully'
+        ]);
         return view($this->folder . '.index',$data);
     }
 }

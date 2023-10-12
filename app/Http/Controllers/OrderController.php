@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Order;
+use App\Models\Cart;
+use App\Models\Product;
+use App\Models\OrderItem;
 use Auth;
 
 class OrderController extends Controller
@@ -19,6 +22,10 @@ class OrderController extends Controller
     {
         //
         $data['records'] = Order::get();
+        
+        return response()->json([
+            'data' => $data['records']
+        ]);
         return view($this->folder . '.index',$data);
         // return view("$this->folder index",$data);
     }
@@ -44,7 +51,7 @@ class OrderController extends Controller
     {
         //
 
-        $carts = Cart::where('user_id',Auth::user()->id)->get();
+        $carts = Cart::where('user_id',1)->get();
         if($carts->count() == 0)
         {
             return "No products in your cart";
@@ -53,9 +60,8 @@ class OrderController extends Controller
 
         $record = new Order;
         $record->total_amount = 0;
-        $record->product_id = $request->product_id;
         $record->status = 'unpaid';
-        $record->user_id = Auth::user()->id;
+        $record->user_id = 1;
         $record->save();
 
         foreach($carts as $cart)
@@ -68,12 +74,12 @@ class OrderController extends Controller
             $record->quantity = $cart->quantity;
             $record->save();
         }
-
-
-
         // $data['records'] = Product::get();
         // return view($this->folder . '.index',$data);
         
+        return response()->json([
+            'data' => $record
+        ]);
         return $this->show($record->id);
     }
 
@@ -87,6 +93,10 @@ class OrderController extends Controller
     {
         //
         $data['record'] = Order::findOrFail($id);
+        
+        return response()->json([
+            'data' => $data['record']
+        ]);
         return view($this->folder . '.show',$data);
        
     }
@@ -122,7 +132,9 @@ class OrderController extends Controller
 
         // $data['records'] = Product::get();
         // return view($this->folder . '.index',$data);
-        
+        return response()->json([
+            'data' => $record
+        ]);
         return $this->show($id);
     }
 
@@ -136,6 +148,11 @@ class OrderController extends Controller
     {
         //
         $data['record'] = Order::findOrFail($id)->delete();
+       
+               
+        return response()->json([
+            'data' => 'deleted successfully'
+        ]);
         return view($this->folder . '.index',$data);
     }
 }

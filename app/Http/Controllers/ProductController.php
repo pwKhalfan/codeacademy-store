@@ -18,6 +18,10 @@ class ProductController extends Controller
     {
         //
         $data['records'] = Product::get();
+        
+        return response()->json([
+            'data' => $data['records']
+        ]);
         return view($this->folder . '.index',$data);
         // return view("$this->folder index",$data);
     }
@@ -47,14 +51,16 @@ class ProductController extends Controller
         $record->name = $request->name;
         $record->name_ar = $request->name_ar;
         $record->price = $request->price;
-        $record->user_id = Auth::user()->id;
+        $record->user_id = 1;
         $record->status = 'inactive';
         $record->save();
 
 
         // $data['records'] = Product::get();
         // return view($this->folder . '.index',$data);
-        
+        return response()->json([
+            'data' => $record
+        ]);
         return $this->show($record->id);
     }
 
@@ -67,7 +73,21 @@ class ProductController extends Controller
     public function show($id)
     {
         //
-        $data['record'] = Product::findOrFail($id);
+        $data['record'] = Product::find($id);
+
+        if(!$data['record'])
+        {
+            return response()->json([
+                'success' => false,
+                'data' => null
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $data['record']
+        ]);
+        
         return view($this->folder . '.show',$data);
        
     }
@@ -101,14 +121,16 @@ class ProductController extends Controller
         $record->name = $request->name;
         $record->name_ar = $request->name_ar;
         $record->price = $request->price;
-        $record->user_id = Auth::user()->id;
+        $record->user_id = 1;
         $record->status = 'inactive';
         $record->save();
 
 
         // $data['records'] = Product::get();
         // return view($this->folder . '.index',$data);
-        
+        return response()->json([
+            'data' => $record
+        ]);
         return $this->show($id);
     }
 
@@ -122,6 +144,10 @@ class ProductController extends Controller
     {
         //
         $data['record'] = Product::findOrFail($id)->delete();
+        
+        return response()->json([
+            'data' => 'deleted successfully'
+        ]);
         return view($this->folder . '.index',$data);
     }
 }
